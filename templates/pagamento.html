@@ -25,7 +25,7 @@
         {% else %}
           <div class="payopt disabled">
             <div class="payname">Cartão de crédito</div>
-            <div class="muted tiny">Configure STRIPE_SECRET_KEY no servidor</div>
+            <div class="muted tiny">Pagamento indisponível no momento</div>
           </div>
         {% endif %}
 
@@ -40,13 +40,13 @@
         {% else %}
           <div class="payopt disabled">
             <div class="payname">Pix</div>
-            <div class="muted tiny">Configure MP_ACCESS_TOKEN no servidor</div>
+            <div class="muted tiny">Pagamento indisponível no momento</div>
           </div>
         {% endif %}
 
         <div class="payopt disabled">
           <div class="payname">Boleto</div>
-          <div class="muted tiny">Pode ser ativado com Mercado Pago</div>
+          <div class="muted tiny">Pagamento indisponível no momento</div>
         </div>
 
         <div class="muted tiny mt">
@@ -75,3 +75,4 @@
 
 
 {% endblock %}
+
