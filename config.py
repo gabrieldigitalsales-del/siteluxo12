@@ -36,6 +36,7 @@ class Config:
     MAX_CONTENT_LENGTH = 8 * 1024 * 1024  # 8MB
 
     # Pagamentos (opcional)
-    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_51T4Ma41MtKdLooO6PFfBAkrqzQnGkd18Vij5HejZnA8DLCluISP5vkk3fzGXMawBQeGQYElswb4D1pQchgdV3z6R009qH3PSKl")
-    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_51T4Ma41MtKdLooO65fRJ3z1x90Bjk0B2Q77Xam4YnfcSEhs1dxi80AkBt9M3KTEEDSXHrwmUshwC92uSQFU6KAlG00kXcW1596")
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "")
+
     MP_ACCESS_TOKEN = os.environ.get("MP_ACCESS_TOKEN", "")
