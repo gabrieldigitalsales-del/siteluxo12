@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% set title = "Login" %}
+{% block content %}
+
+<section class="section">
+  <div class="container auth">
+    <div class="panel">
+      <h2 class="h2">Login</h2>
+      <div class="muted tiny">Padrão: admin@local / admin123</div>
+
+      <form method="post" class="form">
+        {{ form.hidden_tag() }}
+
+        <label>Email</label>
+        {{ form.email(class_="input") }}
+
+        <label>Senha</label>
+        {{ form.password(class_="input") }}
+
+        <label class="check">
+          {{ form.remember() }} <span>Manter conectado</span>
+        </label>
+
+        <button class="btn btn-green full" type="submit">Entrar</button>
+        <a class="btn btn-ghost full mt" href="{{ url_for('admin_dashboard') }}">Admin</a>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

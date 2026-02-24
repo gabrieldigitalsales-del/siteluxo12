@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% set title = "Checkout" %}
+{% block content %}
+
+<section class="section">
+  <div class="container checkout">
+    <div class="checkout-left">
+      <div class="steps">
+        <div class="step done">Carrinho</div>
+        <div class="step active">Entrega</div>
+        <div class="step">Pagamento</div>
+      </div>
+
+      <h2 class="h2">Dados de contato</h2>
+
+      <form method="post" class="panel form">
+        {{ form.hidden_tag() }}
+
+        <label>E-mail</label>
+        {{ form.email(class_="input", placeholder="voce@email.com") }}
+
+        <div class="two">
+          <div>
+            <label>Nome (opcional)</label>
+            {{ form.name(class_="input", placeholder="Seu nome") }}
+          </div>
+          <div>
+            <label>Telefone (opcional)</label>
+            {{ form.phone(class_="input", placeholder="(31) 9xxxx-xxxx") }}
+          </div>
+        </div>
+
+        <h2 class="h2 mt2">Entrega</h2>
+
+        <div class="two">
+          <div>
+            <label>CEP (opcional)</label>
+            {{ form.cep(class_="input", placeholder="00000-000") }}
+          </div>
+          <div>
+            <label>Endereço (opcional)</label>
+            {{ form.address(class_="input", rows="2", placeholder="Rua, número, bairro, cidade") }}
+          </div>
+        </div>
+
+        <label>Observações (opcional)</label>
+        {{ form.notes(class_="input", rows="3", placeholder="Tamanho, presente, prazo, etc.") }}
+
+        <button class="btn btn-green full" type="submit">CONTINUAR</button>
+      </form>
+    </div>
+
+    <aside class="checkout-right">
+      <div class="panel">
+        <div class="summary-head">
+          <div class="muted">Resumo</div>
+          <div class="pill">Seguro</div>
+        </div>
+
+        <div class="sumrow"><span>Subtotal</span><b>{{ payload.subtotal_brl }}</b></div>
+        <div class="sumrow"><span>Frete</span><b>{{ payload.shipping_brl }}</b></div>
+        <div class="sumrow total"><span>Total</span><b>{{ payload.total_brl }}</b></div>
+
+        <div class="muted tiny mt">Após continuar, você escolhe Pix/Cartão (Stripe/Mercado Pago) se estiver configurado.</div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+{% endblock %}

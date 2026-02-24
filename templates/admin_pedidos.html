@@ -1,0 +1,29 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Pedidos</h2>
+  <div class="muted">Filtre por status: Novo, Pagando, Pago, Separando, Enviado, Concluído, Cancelado</div>
+</div>
+
+<div class="panel table">
+  <div class="t-head">
+    <div>#</div><div>Cliente</div><div>Total</div><div>Status</div><div>Data</div><div></div>
+  </div>
+
+  {% for o in orders %}
+    <div class="t-row">
+      <div><b>#{{ o.id }}</b></div>
+      <div>
+        <div>{{ o.customer_email }}</div>
+        <div class="muted tiny">{{ o.customer_name }} {{ o.customer_phone }}</div>
+      </div>
+      <div>{{ "R$ {:,.2f}".format(o.total).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+      <div><span class="pill">{{ o.status }}</span></div>
+      <div class="muted tiny">{{ o.created_at }}</div>
+      <div><a class="btn btn-ghost" href="{{ url_for('admin_pedido', oid=o.id) }}">Abrir</a></div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">{% if mode=='novo' %}Novo produto{% else %}Editar produto{% endif %}</h2>
+  <a class="link" href="{{ url_for('admin_produtos') }}">← Voltar</a>
+</div>
+
+<form class="panel form" method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+
+  <label>Categoria</label>
+  {{ form.category_id(class_="input") }}
+
+  <label>Nome</label>
+  {{ form.name(class_="input") }}
+
+  <label>Descrição</label>
+  {{ form.description(class_="input", rows="5") }}
+
+  <div class="two">
+    <div>
+      <label>Preço</label>
+      {{ form.price(class_="input") }}
+    </div>
+    <div>
+      <label>Estoque</label>
+      {{ form.stock(class_="input") }}
+    </div>
+  </div>
+
+  <label>Tamanhos (opcional)</label>
+  {{ form.sizes(class_="input", placeholder="Ex: P,M,G,GG ou 14,15,16...") }}
+
+  <label class="check">{{ form.is_active() }} <span>Ativo</span></label>
+
+  <label>Imagem</label>
+  {{ form.image(class_="input") }}
+  <div class="muted tiny">png/jpg/webp • até 8MB</div>
+
+  <button class="btn btn-green" type="submit">Salvar</button>
+</form>
+
+{% endblock %}

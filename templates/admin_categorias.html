@@ -1,0 +1,30 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Categorias</h2>
+  <a class="btn btn-green" href="{{ url_for('admin_categoria_nova') }}">+ Nova categoria</a>
+</div>
+
+<div class="panel table">
+  <div class="t-head">
+    <div>Nome</div><div>Slug</div><div>Ícone</div><div>Status</div><div>Ações</div>
+  </div>
+
+  {% for c in categories %}
+    <div class="t-row">
+      <div><b>{{ c.name }}</b></div>
+      <div class="muted">/{{ c.slug }}</div>
+      <div class="muted">{{ c.icon or "—" }}</div>
+      <div>{% if c.is_active %}<span class="pill">Ativa</span>{% else %}<span class="pill muted">Inativa</span>{% endif %}</div>
+      <div class="t-actions">
+        <a class="btn btn-ghost" href="{{ url_for('admin_categoria_editar', cat_id=c.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('admin_categoria_delete', cat_id=c.id) }}" onsubmit="return confirm('Excluir categoria?');">
+          <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

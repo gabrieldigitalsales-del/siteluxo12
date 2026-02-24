@@ -1,0 +1,32 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Dashboard</h2>
+  <div class="muted">Controle total do site pelo painel.</div>
+</div>
+
+<div class="admingrid">
+  <div class="panel">
+    <div class="pill">Produtos</div>
+    <div class="big">{{ stats.produtos }}</div>
+    <a class="link" href="{{ url_for('admin_produtos') }}">Gerenciar →</a>
+  </div>
+  <div class="panel">
+    <div class="pill">Categorias</div>
+    <div class="big">{{ stats.categorias }}</div>
+    <a class="link" href="{{ url_for('admin_categorias') }}">Gerenciar →</a>
+  </div>
+  <div class="panel">
+    <div class="pill">Pedidos</div>
+    <div class="big">{{ stats.pedidos }}</div>
+    <a class="link" href="{{ url_for('admin_pedidos') }}">Ver →</a>
+  </div>
+  <div class="panel">
+    <div class="pill">Novos</div>
+    <div class="big">{{ stats.novos }}</div>
+    <a class="link" href="{{ url_for('admin_pedidos', status='Novo') }}">Abrir →</a>
+  </div>
+</div>
+
+{% endblock %}

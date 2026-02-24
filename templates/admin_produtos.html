@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Produtos</h2>
+  <a class="btn btn-green" href="{{ url_for('admin_produto_novo') }}">+ Novo produto</a>
+</div>
+
+<div class="panel table">
+  <div class="t-head">
+    <div>Produto</div><div>Categoria</div><div>Preço</div><div>Estoque</div><div>Status</div><div>Ações</div>
+  </div>
+
+  {% for p in products %}
+    <div class="t-row">
+      <div class="t-prod">
+        <div class="thumb">
+          {% if p.image_filename %}
+            <img src="{{ url_for('uploads', filename=p.image_filename) }}" alt="">
+          {% else %}
+            <div class="ph small">img</div>
+          {% endif %}
+        </div>
+        <div>
+          <div><b>{{ p.name }}</b></div>
+          <div class="muted tiny">/{{ p.slug }}</div>
+          {% if p.sizes %}<div class="muted tiny">Tamanhos: {{ p.sizes }}</div>{% endif %}
+        </div>
+      </div>
+
+      <div class="muted">{{ cmap.get(p.category_id).name if p.category_id and cmap.get(p.category_id) else "—" }}</div>
+      <div>{{ "R$ {:,.2f}".format(p.price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+      <div>{{ p.stock }}</div>
+      <div>{% if p.is_active %}<span class="pill">Ativo</span>{% else %}<span class="pill muted">Inativo</span>{% endif %}</div>
+      <div class="t-actions">
+        <a class="btn btn-ghost" href="{{ url_for('admin_produto_editar', pid=p.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('admin_produto_delete', pid=p.id) }}" onsubmit="return confirm('Excluir produto?');">
+          <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

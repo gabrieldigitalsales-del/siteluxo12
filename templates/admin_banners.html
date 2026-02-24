@@ -1,0 +1,38 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Banners</h2>
+  <a class="btn btn-green" href="{{ url_for('admin_banner_novo') }}">+ Novo banner</a>
+</div>
+
+<div class="panel table">
+  <div class="t-head">
+    <div>Título</div><div>Status</div><div>Imagem</div><div>Ações</div>
+  </div>
+
+  {% for b in banners %}
+    <div class="t-row">
+      <div>
+        <b>{{ b.title }}</b>
+        <div class="muted tiny">{{ b.subtitle }}</div>
+      </div>
+      <div>{% if b.is_active %}<span class="pill">Ativo</span>{% else %}<span class="pill muted">Inativo</span>{% endif %}</div>
+      <div>
+        {% if b.image_filename %}
+          <span class="muted tiny">{{ b.image_filename }}</span>
+        {% else %}
+          <span class="muted tiny">sem imagem</span>
+        {% endif %}
+      </div>
+      <div class="t-actions">
+        <a class="btn btn-ghost" href="{{ url_for('admin_banner_editar', bid=b.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('admin_banner_delete', bid=b.id) }}" onsubmit="return confirm('Excluir banner?');">
+          <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

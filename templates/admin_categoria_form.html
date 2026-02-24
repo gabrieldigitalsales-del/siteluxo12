@@ -1,0 +1,23 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">{% if mode=='novo' %}Nova categoria{% else %}Editar categoria{% endif %}</h2>
+  <a class="link" href="{{ url_for('admin_categorias') }}">← Voltar</a>
+</div>
+
+<form class="panel form" method="post">
+  {{ form.hidden_tag() }}
+
+  <label>Nome</label>
+  {{ form.name(class_="input") }}
+
+  <label>Ícone (texto)</label>
+  {{ form.icon(class_="input", placeholder="Ex: ring, watch, earrings") }}
+
+  <label class="check">{{ form.is_active() }} <span>Ativa</span></label>
+
+  <button class="btn btn-green" type="submit">Salvar</button>
+</form>
+
+{% endblock %}

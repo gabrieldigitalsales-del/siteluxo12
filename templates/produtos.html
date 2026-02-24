@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% set title = "Produtos" %}
+{% block content %}
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="pill">COLEÇÃO</div>
+        <h2>Joias</h2>
+        {% if q %}<div class="muted">Busca: <b>{{ q }}</b></div>{% endif %}
+      </div>
+
+      <form class="filters" method="get">
+        <input type="hidden" name="cat" value="{{ cat }}">
+        <input class="f-input" name="q" value="{{ q }}" placeholder="Buscar...">
+        <select class="f-input" name="sort">
+          <option value="new" {% if sort=='new' %}selected{% endif %}>Mais recentes</option>
+          <option value="price_asc" {% if sort=='price_asc' %}selected{% endif %}>Menor preço</option>
+          <option value="price_desc" {% if sort=='price_desc' %}selected{% endif %}>Maior preço</option>
+        </select>
+        <button class="btn btn-accent" type="submit">Filtrar</button>
+      </form>
+    </div>
+
+    <div class="catbar">
+      <a class="catpill {% if not cat %}active{% endif %}" href="{{ url_for('produtos') }}">Todos</a>
+      {% for c in categories %}
+        <a class="catpill {% if cat==c.slug %}active{% endif %}" href="{{ url_for('produtos', cat=c.slug) }}">{{ c.name }}</a>
+      {% endfor %}
+    </div>
+
+    <div class="grid">
+      {% for p in products %}
+        <article class="card">
+          <a class="card-media" href="{{ url_for('produto', slug=p.slug) }}">
+            {% if p.image_filename %}
+              <img src="{{ url_for('uploads', filename=p.image_filename) }}" alt="{{ p.name }}">
+            {% else %}
+              <div class="ph">Imagem</div>
+            {% endif %}
+          </a>
+
+          <div class="card-body">
+            <a class="card-title" href="{{ url_for('produto', slug=p.slug) }}">{{ p.name }}</a>
+            <div class="card-price">{{ "R$ {:,.2f}".format(p.price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+
+            <button class="btn btn-green full"
+              type="button"
+              onclick="drawerAddToCart({{ p.id }}, 1, { title: '{{ p.name }}', price: '{{ 'R$ {:,.2f}'.format(p.price).replace(',', 'X').replace('.', ',').replace('X', '.') }}' })">
+              COMPRAR
+            </button>
+
+            <div class="muted tiny">Estoque: {{ p.stock }}</div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

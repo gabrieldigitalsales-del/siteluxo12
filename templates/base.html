@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ STORE_NAME }}{% if title %} • {{ title }}{% endif %}</title>
+  <meta name="description" content="{{ STORE_TAGLINE or 'Joias premium com luxo discreto.' }}"/>
+
+  <style>
+    :root{
+      --primary: {{ PRIMARY_COLOR or "#111111" }};
+      --accent: {{ ACCENT_COLOR or "#B08D57" }};
+    }
+  </style>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='cart.js') }}"></script>
+</head>
+<body>
+
+  <div class="topnote">
+    <div class="container topnote-inner">
+      <div class="topnote-text">{{ TOPBAR_NOTE }}</div>
+      <div class="topnote-right">🔒 Compra segura</div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a class="logo" href="{{ url_for('index') }}">
+        <span class="logo-mark">◇</span>
+        <span class="logo-name">{{ STORE_NAME }}</span>
+      </a>
+
+      <nav class="menu">
+        <a href="{{ url_for('produtos') }}">Joias</a>
+        <a href="{{ url_for('produtos', cat='aliancas') }}">Alianças</a>
+        <a href="{{ url_for('produtos', cat='relogios') }}">Relógios</a>
+        <a href="{{ url_for('produtos', cat='oculos') }}">Óculos</a>
+        <a href="{{ url_for('produtos') }}">Promoções</a>
+      </nav>
+
+      <div class="header-actions">
+        <form class="search" action="{{ url_for('produtos') }}" method="get">
+          <input name="q" placeholder="Buscar..." value="{{ request.args.get('q','') }}">
+          <button type="submit" aria-label="Buscar">⌕</button>
+        </form>
+
+        <a class="iconlink" href="{{ url_for('login') }}" title="Login">👤</a>
+
+        <button class="iconlink cartbtn" type="button" data-cart-open title="Carrinho">
+          🛍
+          <span class="badge" data-cart-badge {% if not CART_COUNT %}style="display:none"{% endif %}>{{ CART_COUNT }}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  {% include "_cart_drawer.html" %}
+  {% include "_size_modal.html" %}
+
+  <main>
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+          <div class="alerts">
+            {% for category, msg in messages %}
+              <div class="alert {{ category }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="foot-left">
+        <div class="foot-brand">{{ STORE_NAME }}</div>
+        <div class="foot-muted">{{ STORE_TAGLINE }}</div>
+      </div>
+      <div class="foot-right">
+        <div class="foot-muted">© 2026 {{ STORE_NAME }} • Luxo discreto</div>
+        <div class="foot-muted">Desenvolvido por Gabriel Menezes França • 2026</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

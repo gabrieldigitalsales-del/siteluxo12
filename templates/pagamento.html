@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% set title = "Pagamento" %}
+{% block content %}
+
+<section class="section">
+  <div class="container pay">
+    <div class="steps">
+      <div class="step done">Carrinho</div>
+      <div class="step done">Entrega</div>
+      <div class="step active">Pagamento</div>
+    </div>
+
+    <div class="paygrid">
+      <div class="panel">
+        <h2 class="h2">Forma de pagamento</h2>
+
+        {% if stripe_enabled %}
+          <form method="post" action="{{ url_for('pay_stripe', order_id=order.id) }}">
+            <button class="payopt" type="submit">
+              <div class="payname">Cartão de crédito</div>
+              <div class="muted tiny">Stripe Checkout</div>
+              <div class="arrow">›</div>
+            </button>
+          </form>
+        {% else %}
+          <div class="payopt disabled">
+            <div class="payname">Cartão de crédito</div>
+            <div class="muted tiny">Configure STRIPE_SECRET_KEY no servidor</div>
+          </div>
+        {% endif %}
+
+        {% if mp_enabled %}
+          <form method="post" action="{{ url_for('pay_mp', order_id=order.id) }}">
+            <button class="payopt" type="submit">
+              <div class="payname">Pix / Cartão</div>
+              <div class="muted tiny">Mercado Pago</div>
+              <div class="arrow">›</div>
+            </button>
+          </form>
+        {% else %}
+          <div class="payopt disabled">
+            <div class="payname">Pix</div>
+            <div class="muted tiny">Configure MP_ACCESS_TOKEN no servidor</div>
+          </div>
+        {% endif %}
+
+        <div class="payopt disabled">
+          <div class="payname">Boleto</div>
+          <div class="muted tiny">Pode ser ativado com Mercado Pago</div>
+        </div>
+
+        <div class="muted tiny mt">
+          Em produção, o ideal é confirmar pagamentos via Webhooks (Stripe/MP). O projeto já está pronto para evoluir.
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h2 class="h2">Pedido #{{ order.id }}</h2>
+
+        {% for it in order.items %}
+          <div class="sumitem">
+            <div class="sumname">{{ it.product_name }}{% if it.size %} ({{ it.size }}){% endif %}</div>
+            <div class="muted tiny">{{ it.quantity }} x {{ "R$ {:,.2f}".format(it.unit_price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+          </div>
+        {% endfor %}
+
+        <div class="sumrow"><span>Subtotal</span><b>{{ "R$ {:,.2f}".format(order.subtotal).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+        <div class="sumrow"><span>Frete</span><b>{{ "R$ {:,.2f}".format(order.shipping).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+        <div class="sumrow total"><span>Total</span><b>{{ "R$ {:,.2f}".format(order.total).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+
+        <a class="btn btn-ghost full mt" href="{{ url_for('pedido_view', order_id=order.id) }}">Ver detalhes do pedido</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

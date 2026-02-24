@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% set title = p.name %}
+{% block content %}
+
+<section class="section">
+  <div class="container product">
+    <div class="product-media">
+      {% if p.image_filename %}
+        <img src="{{ url_for('uploads', filename=p.image_filename) }}" alt="{{ p.name }}">
+      {% else %}
+        <div class="ph big">Imagem</div>
+      {% endif %}
+    </div>
+
+    <div class="product-info">
+      <div class="pill">PEÇA PREMIUM</div>
+      <h2 class="prod-title">{{ p.name }}</h2>
+      <div class="prod-price">{{ "R$ {:,.2f}".format(p.price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+      <div class="muted">{{ p.description }}</div>
+
+      {% if sizes and sizes|length > 0 %}
+        <div class="muted mt">Tamanhos disponíveis:</div>
+        <div class="sizes">
+          {% for s in sizes %}
+            <div class="sizechip">{{ s }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="muted mt">Estoque: <b>{{ p.stock }}</b></div>
+
+      <div class="buyrow">
+        <button class="btn btn-green"
+          type="button"
+          onclick="drawerAddToCart({{ p.id }}, 1, { title: '{{ p.name }}', price: '{{ 'R$ {:,.2f}'.format(p.price).replace(',', 'X').replace('.', ',').replace('X', '.') }}' })">
+          COMPRAR
+        </button>
+
+        <button class="btn btn-ghost" type="button" data-cart-open>Ver carrinho</button>
+      </div>
+
+      <div class="trustrow">
+        <div>🔒 Checkout seguro</div>
+        <div>🚚 Frete simples</div>
+        <div>★ Luxo discreto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

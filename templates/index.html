@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% set title = "Início" %}
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-media" style="
+      {% if banner and banner.image_filename %}
+        background-image:url('{{ url_for('uploads', filename=banner.image_filename) }}');
+      {% else %}
+        background-image: linear-gradient(120deg, rgba(176,141,87,.25), rgba(0,0,0,.06));
+      {% endif %}
+    ">
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <div class="hero-brand">{{ STORE_NAME }}</div>
+        <div class="hero-title">{{ (banner.title if banner else "Clássicos em Ouro 18k") }}</div>
+        <div class="hero-sub">{{ (banner.subtitle if banner else STORE_TAGLINE) }}</div>
+
+        <a class="btn btn-accent" href="{{ (banner.cta_link if banner else url_for('produtos')) }}">
+          {{ (banner.cta_text if banner else "Comprar agora") }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="container strip-inner">
+    <div class="strip-item">✦ Pix</div>
+    <div class="strip-item">🚚 Frete fixo</div>
+    <div class="strip-item">⟡ Fabricação premium</div>
+    <div class="strip-item">★ Até 2x</div>
+    <div class="strip-item">✓ Garantia</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head center">
+      <div class="pill">CATEGORIAS</div>
+      <h2>Encontre o que você precisa por categoria</h2>
+    </div>
+
+    <div class="cats">
+      {% for c in categories %}
+        <a class="cat" href="{{ url_for('produtos', cat=c.slug) }}">
+          <div class="cat-icon">{{ c.icon[:2].upper() if c.icon else "◇" }}</div>
+          <div class="cat-name">{{ c.name }}</div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="pill">CLÁSSICOS ATEMPORAIS</div>
+        <h2>As Joias Mais Desejadas</h2>
+      </div>
+      <a class="link" href="{{ url_for('produtos') }}">Ver todas →</a>
+    </div>
+
+    <div class="grid">
+      {% for p in products %}
+        <article class="card">
+          <a class="card-media" href="{{ url_for('produto', slug=p.slug) }}">
+            {% if p.image_filename %}
+              <img src="{{ url_for('uploads', filename=p.image_filename) }}" alt="{{ p.name }}">
+            {% else %}
+              <div class="ph">Imagem</div>
+            {% endif %}
+          </a>
+
+          <div class="card-body">
+            <a class="card-title" href="{{ url_for('produto', slug=p.slug) }}">{{ p.name }}</a>
+            <div class="card-price">{{ "R$ {:,.2f}".format(p.price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+
+            <button class="btn btn-green full"
+              type="button"
+              onclick="drawerAddToCart({{ p.id }}, 1, { title: '{{ p.name }}', price: '{{ 'R$ {:,.2f}'.format(p.price).replace(',', 'X').replace('.', ',').replace('X', '.') }}' })">
+              COMPRAR
+            </button>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

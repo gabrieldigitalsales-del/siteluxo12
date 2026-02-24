@@ -1,0 +1,64 @@
+{% if public_view %}
+  {% extends "base.html" %}
+{% else %}
+  {% extends "admin_base.html" %}
+{% endif %}
+
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Pedido #{{ order.id }}</h2>
+  {% if not public_view %}
+    <a class="link" href="{{ url_for('admin_pedidos') }}">← Voltar</a>
+  {% endif %}
+</div>
+
+<div class="panel">
+  <div class="two">
+    <div>
+      <div class="pill">Cliente</div>
+      <div><b>{{ order.customer_email }}</b></div>
+      <div class="muted tiny">{{ order.customer_name }} • {{ order.customer_phone }}</div>
+      <div class="muted tiny">CEP: {{ order.cep }}</div>
+      <div class="muted tiny">{{ order.address }}</div>
+      <div class="muted tiny">{{ order.notes }}</div>
+    </div>
+
+    <div>
+      <div class="pill">Status</div>
+      {% if not public_view %}
+        <form method="post" class="form">
+          <select class="input" name="status">
+            {% for s in ["Novo","Pagando","Pago","Separando","Enviado","Concluído","Cancelado"] %}
+              <option value="{{ s }}" {% if order.status==s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-green" type="submit">Salvar</button>
+        </form>
+      {% else %}
+        <div class="big">{{ order.status }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr class="hr">
+
+  <div class="pill">Itens</div>
+  {% for it in order.items %}
+    <div class="orderline">
+      <div>
+        <b>{{ it.product_name }}</b> {% if it.size %}<span class="muted">({{ it.size }})</span>{% endif %}
+        <div class="muted tiny">{{ it.quantity }} x {{ "R$ {:,.2f}".format(it.unit_price).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
+      </div>
+      <div><b>{{ "R$ {:,.2f}".format(it.line_total).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+    </div>
+  {% endfor %}
+
+  <hr class="hr">
+
+  <div class="sumrow"><span>Subtotal</span><b>{{ "R$ {:,.2f}".format(order.subtotal).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+  <div class="sumrow"><span>Frete</span><b>{{ "R$ {:,.2f}".format(order.shipping).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+  <div class="sumrow total"><span>Total</span><b>{{ "R$ {:,.2f}".format(order.total).replace(",", "X").replace(".", ",").replace("X", ".") }}</b></div>
+</div>
+
+{% endblock %}

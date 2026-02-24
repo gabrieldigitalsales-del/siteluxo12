@@ -1,0 +1,37 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">{% if mode=='novo' %}Novo banner{% else %}Editar banner{% endif %}</h2>
+  <a class="link" href="{{ url_for('admin_banners') }}">← Voltar</a>
+</div>
+
+<form class="panel form" method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+
+  <label>Título</label>
+  {{ form.title(class_="input") }}
+
+  <label>Subtítulo</label>
+  {{ form.subtitle(class_="input") }}
+
+  <div class="two">
+    <div>
+      <label>Texto do botão</label>
+      {{ form.cta_text(class_="input") }}
+    </div>
+    <div>
+      <label>Link do botão</label>
+      {{ form.cta_link(class_="input") }}
+    </div>
+  </div>
+
+  <label class="check">{{ form.is_active() }} <span>Ativo</span></label>
+
+  <label>Imagem</label>
+  {{ form.image(class_="input") }}
+
+  <button class="btn btn-green" type="submit">Salvar</button>
+</form>
+
+{% endblock %}

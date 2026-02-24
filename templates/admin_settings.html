@@ -1,0 +1,68 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<div class="adminhead">
+  <h2 class="h2">Configurações</h2>
+  <div class="muted">Tudo editável sem mexer no código.</div>
+</div>
+
+<form class="panel form" method="post">
+  {{ form.hidden_tag() }}
+
+  <div class="two">
+    <div>
+      <label>Nome da loja</label>
+      {{ form.store_name(class_="input") }}
+    </div>
+    <div>
+      <label>Slogan</label>
+      {{ form.store_tagline(class_="input") }}
+    </div>
+  </div>
+
+  <div class="two">
+    <div>
+      <label>WhatsApp</label>
+      {{ form.whatsapp(class_="input") }}
+    </div>
+    <div>
+      <label>Aviso topo</label>
+      {{ form.topbar_note(class_="input") }}
+    </div>
+  </div>
+
+  <div class="two">
+    <div>
+      <label>Frete grátis acima de</label>
+      {{ form.shipping_free_over(class_="input") }}
+    </div>
+    <div>
+      <label>Frete fixo</label>
+      {{ form.shipping_flat(class_="input") }}
+    </div>
+  </div>
+
+  <div class="two">
+    <div>
+      <label>Cor primária (hex)</label>
+      {{ form.primary_color(class_="input", placeholder="#111111") }}
+    </div>
+    <div>
+      <label>Cor destaque (hex)</label>
+      {{ form.accent_color(class_="input", placeholder="#B08D57") }}
+    </div>
+  </div>
+
+  <button class="btn btn-green" type="submit">Salvar</button>
+</form>
+
+<div class="panel mt">
+  <div class="pill">Pagamentos</div>
+  <div class="muted tiny">
+    Para ativar pagamentos online: configure variáveis de ambiente no servidor:
+    <br>• Stripe: STRIPE_SECRET_KEY (e opcional STRIPE_PUBLIC_KEY)
+    <br>• Mercado Pago: MP_ACCESS_TOKEN
+  </div>
+</div>
+
+{% endblock %}
