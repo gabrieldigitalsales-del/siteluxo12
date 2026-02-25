@@ -6,7 +6,6 @@ WTForms==3.1.2
 email-validator==2.2.0
 Werkzeug==3.0.3
 python-slugify==8.0.4
-gunicorn==22.0.0
-psycopg2-binary
+gunicorn==22.0.0
 requests==2.32.3
 stripe==10.12.0
